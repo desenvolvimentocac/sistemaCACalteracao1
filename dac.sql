@@ -8,7 +8,7 @@
 -- PHP Version: 5.6.40-0+deb8u12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET time_zone = "+03:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,6 +25,8 @@ SET time_zone = "+00:00";
 --
 -- Estrutura da tabela `aluno_turma`
 --
+
+use dac;
 
 CREATE TABLE `aluno_turma` (
   `id_aluno` int(11) NOT NULL,
