@@ -101,13 +101,11 @@ function loader() {
             req: 'getTodasTurmas'
         },
         success: function(response) {
-            // Add debug logging
             console.log('Raw response:', response);
             
             try {
                 const turmas = JSON.parse(response);
                 
-                // Check if we got an error message
                 if (turmas.error) {
                     console.error('Server error:', turmas.error);
                     alert('Erro ao carregar as turmas: ' + turmas.error);
@@ -117,17 +115,21 @@ function loader() {
                 const turmaSelect = $('#turma');
                 turmaSelect.empty();
                 
-                // Add a default option
                 turmaSelect.append(new Option('Selecione uma turma', ''));
                 
-                // Check if we have any turmas
                 if (turmas.length === 0) {
                     console.log('No turmas found');
                     turmaSelect.append(new Option('Nenhuma turma encontrada', ''));
                     return;
                 }
                 
-                // Add options with period information
+                // Sort turmas by creation date in descending order
+                turmas.sort((a, b) => {
+                    const dateA = new Date(a.criacao_turma);
+                    const dateB = new Date(b.criacao_turma);
+                    return dateB - dateA;
+                });
+                
                 turmas.forEach(function(turma) {
                     const optionText = `${turma.nome} - ${turma.oficina} (${turma.professor}/${turma.criacao_turma})`;
                     turmaSelect.append(new Option(optionText, turma.id_turma));
