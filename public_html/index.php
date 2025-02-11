@@ -108,7 +108,13 @@ if(isset($_SESSION['LOGADO']) and $_SESSION['LOGADO'] == true){
             include "view/turma/editTurma.html";
             break;
         case 'Trocar.Periodo':
-            include "view/turma/trocarPeriodo.html";
+            if($_SESSION['NIVEL'] == COORDENADOR) {
+                include "view/turma/trocarPeriodo.html";
+            } else {
+                // Redirect unauthorized users
+                header("Location: ?pag=DashBoard");
+                exit();
+            }
             break;
         //Usuario
         case 'Usuarios':
