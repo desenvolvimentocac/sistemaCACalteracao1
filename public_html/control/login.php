@@ -50,6 +50,8 @@ class login{
                 return Ambiente::getCargoProf();
             case ALUNO:
                 return Ambiente::getCargoAluno();
+			case COORDENADOR:
+			    return Ambiente::getCargoCoordenador();
             default:
                 return "Visitante";
         }
@@ -79,6 +81,10 @@ class login{
 
     private function getMenu(){
         switch ($_SESSION['NIVEL']){
+			case COORDENADOR:
+			    $_SESSION['MENU'] = Ambiente::getCoordenadorMenu();
+				var_dump($_SESSION['MENU']);
+				break;
             case ADMINISTRADOR:
                 $_SESSION['MENU'] = Ambiente::getAdmMenu();
                 break;

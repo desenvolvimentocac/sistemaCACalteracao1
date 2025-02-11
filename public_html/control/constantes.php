@@ -14,6 +14,7 @@ const ADMINISTRADOR = 1;
 const PROFESSOR = 2;
 const ALUNO = 3;
 const VISITANTE = 4;
+const COORDENADOR = 5;
 
 //mensagens
 const SUCESSO = 200;
@@ -31,6 +32,7 @@ class Ambiente{
     private static $nomeSistemaExtenso = "Sistema do Centro de Arte e Cultura - CAC";
     private static $nomeInstituicao = "Universidade Federal Rural do Rio de Janeiro";
     //cargos
+	private static $coord = "Coordenadação"; // Coordenador
     private static $admn = "Administrador";//Administrador
     private static $prof = "Oficineiro";//Oficineiro
     private static $alun = "Aluno";//Aluno
@@ -46,13 +48,17 @@ class Ambiente{
     public static function getAdmMenu(){return '[{"nome":"Infra","link":"InfraSubmenu","icone":"glyphicon-dashboard","submenu":[{"nome":"Gerenciar","link":"?pag=Infraestrutura"},{"nome":"Novo Predio","link":"?pag=Cad.Predio"},{"nome":"Nova Sala","link":"?pag=Cad.Sala"}]},{"nome":"'.self::$atividade.'s","link":"OficinaSubmenu","icone":"glyphicon-knight","submenu":[{"nome":"Gerenciar","link":"?pag=Oficinas"},{"nome":"Nova '.self::$atividade.'","link":"?pag=Cad.Oficina"}]},{"nome":"Usuarios","link":"UsuarioSubmenu","icone":"glyphicon-user","submenu":[{"nome":"Gerenciar","link":"?pag=Usuarios"},{"nome":"Novo Usuário","link":"?pag=Cad.Pessoa"}]},{"nome":"Turmas","link":"TurmaSubmenu","icone":"glyphicon-bell","submenu":[{"nome":"Mudar Período","link":"?pag=Trocar.Periodo"},{"nome":"Gerenciar Turmas","link":"?pag=Turmas"},{"nome":"Nova Turma","link":"?pag=Cad.Turma"}]},{"nome":"Alunos","link":"AlunoSubmenu","icone":"glyphicon-education","submenu":[{"nome":"Gerenciar","link":"?pag=Alunos"},{"nome":"Cad. Aluno em Turma","link":"?pag=Cad.Aluno"}]},{"nome":"Relatórios","link":"RelatorioSubmenu","icone":"glyphicon-print","submenu":[{"nome":"Gerar","link":"?pag=Relatorios"}]}]';}
     public static function getProfMenu(){return '[{"nome":"Minha conta","link":"ContaSubmenu","icone":"glyphicon-user","submenu":[{"nome":"Meus Dados","link":"?pag=Meus-Dados&id='.$_SESSION['ID'].'"}]},{"nome":"Minhas Turmas","link":"TurmasSubmenu","icone":"glyphicon-bell","submenu":[{"nome":"ver","link":"?pag=Turmas"},{"nome":"Nova Turma","link":"?pag=Cad.Turma"}]},{"nome":"Alunos","link":"AlunosSubmenu","icone":"glyphicon-education","submenu":[{"nome":"Gerenciar","link":"?pag=Presença"}]}]';}
     public static function getAlunoMenu(){return '[{"nome":"Minha conta","link":"ContaSubmenu","icone":"glyphicon-user","submenu":[{"nome":"Meus Dados","link":"?pag=Meus-Dados&id='.$_SESSION['ID'].'"}]}]';}
-    public static function getCargoAdm(){return self::$admn;}
+	public static function getCoordenadorMenu(){return '[{"nome":"Infra","link":"InfraSubmenu","icone":"glyphicon-dashboard","submenu":[{"nome":"Gerenciar","link":"?pag=Infraestrutura"},{"nome":"Novo Predio","link":"?pag=Cad.Predio"},{"nome":"Nova Sala","link":"?pag=Cad.Sala"}]},{"nome":"'.self::$atividade.'s","link":"OficinaSubmenu","icone":"glyphicon-knight","submenu":[{"nome":"Gerenciar","link":"?pag=Oficinas"},{"nome":"Nova '.self::$atividade.'","link":"?pag=Cad.Oficina"}]},{"nome":"Usuarios","link":"UsuarioSubmenu","icone":"glyphicon-user","submenu":[{"nome":"Gerenciar","link":"?pag=Usuarios"},{"nome":"Novo Usuário","link":"?pag=Cad.Pessoa"}]},{"nome":"Turmas","link":"TurmaSubmenu","icone":"glyphicon-bell","submenu":[{"nome":"Mudar Período","link":"?pag=Trocar.Periodo"},{"nome":"Gerenciar Turmas","link":"?pag=Turmas"},{"nome":"Nova Turma","link":"?pag=Cad.Turma"}]},{"nome":"Alunos","link":"AlunoSubmenu","icone":"glyphicon-education","submenu":[{"nome":"Gerenciar","link":"?pag=Alunos"},{"nome":"Cad. Aluno em Turma","link":"?pag=Cad.Aluno"}]},{"nome":"Relatórios","link":"RelatorioSubmenu","icone":"glyphicon-print","submenu":[{"nome":"Gerar","link":"?pag=Relatorios"}]}]';}
+	    public static function getCargoCoordenador(){
+        return self::$coord;
+    }
+	public static function getCargoAdm(){return self::$admn;}
     public static function getCargoProf(){return self::$prof;}
     public static function getCargoAluno(){return self::$alun;}
     public static function getAtividadeName(){return self::$atividade;}
     public static function getMaxOficinas(){ return self::$maxAtiv;}
     //transformando em JS para enviar a Ui
-    public static function getUiMens(){
+public static function getUiMens(){
         $msg = isset($_SESSION['MSG']) ? $_SESSION['MSG'] : '{"tipo":" ","desc":" "}';
         echo "var mensagem = '".$msg."';";
         unset($_SESSION['MSG']);
@@ -65,8 +71,8 @@ class Ambiente{
             const CargoAdm = \"".self::$admn."\";
             const CargoProf = \"".self::$prof."\";
             const CargoAluno = \"".self::$alun."\";
+            const CargoCoordenador = \"".self::$coord."\";
             const AtividadeName = \"".self::$atividade."\";
         ";
-
     }
 }
