@@ -212,20 +212,29 @@ class main{
                 $turma = new turma();
                 echo $turma->getTurmas($_GET['id']);
                 break;
-case 'getTodasTurmas':
-    try {
-        $turma = new turma();
-        $result = $turma->getTodasTurmas();
-        if ($result === false || $result === '') {
-            echo json_encode(['error' => 'No data found']);
-        } else {
-            echo $result;
-        }
-    } catch (Exception $e) {
-        echo json_encode(['error' => $e->getMessage()]);
-    }
-    break;
-                break;			
+			case "selectTurmaByPeriodo":
+			    header("Content-Type: application/json; charset=UTF-8");
+                $turma = new turma();
+                echo $turma->getTurmasByPeriodo($_GET['id']);
+                break;
+			case "selectTurmaInativaByPeriodo":
+			    header("Content-Type: application/json; charset=UTF-8");
+                $turma = new turma();
+                echo $turma->getTurmasInativasByPeriodo($_GET['id']);
+                break;
+            case 'getTodasTurmas':
+    			    try {
+        			    $turma = new turma();
+        			    $result = $turma->getTodasTurmas();
+             			if ($result === false || $result === '') {
+             			   echo json_encode(['error' => 'No data found']);
+             			} else {
+             			   echo $result;
+                        }
+                    } catch (Exception $e) {
+                        echo json_encode(['error' => $e->getMessage()]);
+                    }
+            break;	
             case "updateTurma":
                 $turma = new turma();
                 $turma->updateTurma($_GET['id']);

@@ -269,6 +269,87 @@ class turma{
         }
     }
 	
+public function getTurmasByPeriodo($tempoId) {
+    try {
+
+        $tempoId = (int)$tempoId;
+        
+        $projection = "t.id_turma, 
+                      t.criacao_turma, 
+                      o.nome AS oficina, 
+                      t.num_vagas, 
+                      t.nome_turma, 
+                      p.nome AS professor, 
+                      s.nome AS sala,
+                      h.segunda, 
+                      h.terca, 
+                      h.quarta, 
+                      h.quinta, 
+                      h.sexta,
+                      TIME_FORMAT(h.inicio, '%H:%i') AS inicio,
+                      TIME_FORMAT(h.fim, '%H:%i') AS fim";
+        
+        $table = "turma t
+                  LEFT JOIN pessoa p ON t.professor = p.id_pessoa
+                  LEFT JOIN oficina o ON t.oficina_id = o.id_oficina
+                  LEFT JOIN horario_turma_sala h ON t.id_turma = h.turma_id
+                  LEFT JOIN sala s ON h.sala_id = s.id_sala";
+        
+        $whereClause = "t.tempo_id = ? AND t.is_ativo = 1";
+        $whereArgs = array($tempoId);
+        
+        error_log("Query para tempo_id: " . $tempoId);
+        
+        $result = $this->db->select($projection, $table, $whereClause, $whereArgs);
+        
+        return $result;
+    } catch (Exception $e) {
+        error_log("Erro na execução de getTurmasByPeriodo: " . $e->getMessage());
+        return json_encode([]);
+    }
+}
+
+public function getTurmasInativasByPeriodo($tempoId) {
+    try {
+
+        $tempoId = (int)$tempoId;
+        
+        $projection = "t.id_turma, 
+                      t.criacao_turma, 
+                      o.nome AS oficina, 
+                      t.num_vagas, 
+                      t.nome_turma, 
+                      p.nome AS professor, 
+                      s.nome AS sala,
+                      h.segunda, 
+                      h.terca, 
+                      h.quarta, 
+                      h.quinta, 
+                      h.sexta,
+                      TIME_FORMAT(h.inicio, '%H:%i') AS inicio,
+                      TIME_FORMAT(h.fim, '%H:%i') AS fim";
+        
+        $table = "turma t
+                  LEFT JOIN pessoa p ON t.professor = p.id_pessoa
+                  LEFT JOIN oficina o ON t.oficina_id = o.id_oficina
+                  LEFT JOIN horario_turma_sala h ON t.id_turma = h.turma_id
+                  LEFT JOIN sala s ON h.sala_id = s.id_sala";
+        
+        $whereClause = "t.tempo_id = ? AND t.is_ativo = 0";
+        $whereArgs = array($tempoId);
+        
+        error_log("Query para tempo_id: " . $tempoId);
+        
+        $result = $this->db->select($projection, $table, $whereClause, $whereArgs);
+        
+        return $result;
+    } catch (Exception $e) {
+        error_log("Erro na execução de getTurmasByPeriodo: " . $e->getMessage());
+        return json_encode([]);
+    }
+}
+
+	
 public function getTodasTurmas() {
     $projection = 
         "turma.id_turma, 
